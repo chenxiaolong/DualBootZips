@@ -1,0 +1,20 @@
+show_progress(0.0, 0);
+
+ui_print("----------------------------");
+ui_print("Wipe secondary dalkvik-cache");
+ui_print("----------------------------");
+run_program("/sbin/busybox", "umount", "/data");
+run_program("/sbin/busybox", "mount", "/data");
+
+show_progress(0.33, 0);
+
+ui_print("Deleting /data/dual/dalvik-cache ...");
+delete_recursive("/data/dual/dalvik-cache");
+
+show_progress(0.66, 0);
+
+unmount("/data");
+
+show_progress(1.0, 0);
+
+ui_print("Successfully wiped secondary dalvik-cache");
