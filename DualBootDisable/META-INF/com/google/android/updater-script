@@ -1,0 +1,26 @@
+show_progress(0.0, 0);
+
+ui_print("-----------------");
+ui_print("Disable dual boot");
+ui_print("-----------------");
+run_program("/sbin/busybox", "mount", "/system");
+
+show_progress(0.25, 0);
+
+package_extract_file("helper.sh", "/tmp/helper.sh");
+set_perm(0, 0, 0777, "/tmp/helper.sh");
+
+show_progress(0.5, 0);
+
+ui_print("Disabling dual boot ...");
+run_program("/tmp/helper.sh", "disable");
+
+show_progress(0.75, 0);
+
+unmount("/system");
+
+show_progress(1.0, 0);
+
+ui_print("Successfully disabled dual booting!");
+ui_print("");
+ui_print("NOTE: If you haven't already switched to the primary ROM using the app, you'll probably want to flash SwitchToPrimary.zip");
