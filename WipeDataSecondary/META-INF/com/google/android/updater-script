@@ -1,8 +1,8 @@
 show_progress(0.0, 0);
 
-ui_print("----------------------");
-ui_print("Wiping secondary /data");
-ui_print("----------------------");
+ui_print("--------------------");
+ui_print("Wipe secondary /data");
+ui_print("--------------------");
 run_program("/sbin/busybox", "umount", "/data");
 run_program("/sbin/busybox", "mount", "/data");
 

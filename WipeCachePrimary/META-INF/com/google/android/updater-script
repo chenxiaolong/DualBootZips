@@ -1,8 +1,8 @@
 show_progress(0.0, 0);
 
-ui_print("---------------------");
-ui_print("Wiping primary /cache");
-ui_print("---------------------");
+ui_print("-------------------");
+ui_print("Wipe primary /cache");
+ui_print("-------------------");
 run_program("/sbin/busybox", "umount", "/cache");
 run_program("/sbin/busybox", "mount", "/cache");
 
