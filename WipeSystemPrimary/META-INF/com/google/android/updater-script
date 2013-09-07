@@ -1,0 +1,29 @@
+show_progress(0.0, 0);
+
+ui_print("--------------------");
+ui_print("Wipe primary /system");
+ui_print("--------------------");
+run_program("/sbin/busybox", "mount", "/system");
+
+show_progress(0.2, 0);
+
+package_extract_file("helper.sh", "/tmp/helper.sh");
+set_perm(0, 0, 0777, "/tmp/helper.sh");
+
+show_progress(0.4, 0);
+
+ui_print("Wiping primary /system ...");
+run_program("/tmp/helper.sh", "wipe-primary-system");
+
+show_progress(0.6, 0);
+
+ui_print("Deleting primary kernel ...");
+delete("/system/dual-kernels/primary.img");
+
+show_progress(0.8, 0);
+
+unmount("/system");
+
+show_progress(1.0, 0);
+
+ui_print("Successfully wiped primary /system");
