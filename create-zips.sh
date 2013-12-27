@@ -59,9 +59,10 @@ rm -f ../DualBootUtilities-${VERSION}.zip
 zip -r ../DualBootUtilities-${VERSION}.zip *
 cd ..
 
-wget -O aroma.zip 'http://forum.xda-developers.com/devdb/project/dl/?id=286&task=get'
+if [ ! -f aroma.zip ]; then
+  wget -O aroma.zip 'http://forum.xda-developers.com/devdb/project/dl/?id=286&task=get'
+fi
 unzip aroma.zip META-INF/com/google/android/update-binary{,-installer}
-rm aroma.zip
 zip DualBootUtilities-${VERSION}.zip \
     META-INF/com/google/android/update-binary{,-installer}
 

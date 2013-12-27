@@ -1,2 +1,5 @@
+<b><#selectbg_g>Version 2.0</#></b>
+<*><b>Add support for multi-slot-*</b></*>
+
 <b><#selectbg_g>Version 1.0</#></b>
 <*><b>Combine all of the zips into an AROMA installer</b></*>
