@@ -46,12 +46,20 @@ read_kernel() {
 }
 
 switch_to() {
+  mount_data
   mount_system
   local EXIT
 
-  if [ ! -f /system/dual-kernels/$1.img ]; then
+  local KERNEL
+
+  KERNEL=/data/media/0/MultiKernels/$1.img
+  if [ ! -f $KERNEL ]; then
+    KERNEL=/system/dual-kernels/$1.img
+  fi
+  if [ ! -f $KERNEL ]; then
     echo "There's no kernel for the $1 ROM. Did you remember to set the kernel in the Dual Boot Switcher app? You will need to flash a kernel for the $1 ROM in order to boot it again."
-  elif ! write_kernel /system/dual-kernels/$1.img; then
+    EXIT=1
+  elif ! write_kernel $KERNEL; then
     echo "Failed to write kernel to boot partition."
     EXIT=1
   else
@@ -59,6 +67,7 @@ switch_to() {
     EXIT=0
   fi
 
+  unmount_data
   unmount_system
   exit $EXIT
 }
