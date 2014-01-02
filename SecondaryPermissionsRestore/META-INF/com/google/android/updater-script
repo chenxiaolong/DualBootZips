@@ -1,0 +1,18 @@
+ui_print("---------------------------------");
+ui_print("Restore secondary ROM permissions");
+ui_print("---------------------------------");
+run_program("/sbin/busybox", "mount", "/system");
+
+package_extract_file("backuppermtool.sh", "/tmp/backuppermtool.sh");
+package_extract_file("setfattr", "/tmp/setfattr");
+package_extract_file("setfacl", "/tmp/setfacl");
+set_perm(0, 0, 0777, "/tmp/backuppermtool.sh");
+set_perm(0, 0, 0777, "/tmp/setfattr");
+set_perm(0, 0, 0777, "/tmp/setfacl");
+
+run_program("/tmp/backuppermtool.sh", "restore");
+
+unmount("/system");
+
+ui_print("Successfully restored secondary ROM's");
+ui_print("permissions");
