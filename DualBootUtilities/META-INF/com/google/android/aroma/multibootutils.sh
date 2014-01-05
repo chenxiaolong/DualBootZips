@@ -75,6 +75,7 @@ switch_to() {
 wipe_system() {
   mount_system
   mount_cache
+  mount_data
 
   case $1 in
   primary)
@@ -101,6 +102,7 @@ wipe_system() {
 
     echo "Deleting primary kernel"
     rm -f /system/dual-kernels/primary.img
+    rm -f /data/media/0/MultiKernels/primary.img
     ;;
 
   secondary)
@@ -108,6 +110,7 @@ wipe_system() {
     rm -rf /system/dual
     echo "Deleting secondary kernel"
     rm -f /system/dual-kernels/secondary.img
+    rm -f /data/media/0/MultiKernels/secondary.img
     ;;
 
   multi-slot-*)
@@ -115,10 +118,12 @@ wipe_system() {
     rm -rf /cache/$1
     echo "Deleting $1 kernel"
     rm -f /system/dual-kernels/$1.img
+    rm -f /data/media/0/MultiKernels/$1.img
   esac
 
   unmount_system
   unmount_cache
+  unmount_data
 }
 
 wipe_cache() {
