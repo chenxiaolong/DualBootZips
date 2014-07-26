@@ -1,3 +1,7 @@
+<b><#selectbg_g>Version 3.3</#></b>
+<*><b>Add option to wipe /cache and dalvik-cache at the same time</b></*>
+<*><b>Delete the /cache/dalvik-cache equivalent when wiping the dalvik/art cache</b></*>
+
 <b><#selectbg_g>Version 3.2</#></b>
 <*><b>New darker theme</b></*>
 <*><b>Add option to wipe everything</b></*>
