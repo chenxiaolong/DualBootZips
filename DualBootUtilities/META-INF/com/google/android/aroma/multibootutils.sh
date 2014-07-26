@@ -213,16 +213,22 @@ wipe_dalvik_cache() {
   primary)
     echo "Deleting /data/dalvik-cache/"
     rm -rf /data/dalvik-cache
+    echo "Deleting /cache/dalvik-cache/"
+    rm -rf /cache/dalvik-cache
     ;;
 
   secondary)
     echo "Deleting /data/dual/dalvik-cache/"
     rm -rf /data/dual/dalvik-cache
+    echo "Deleting /cache/dual/dalvik-cache/"
+    rm -rf /cache/dual/dalvik-cache
     ;;
 
   multi-slot-*)
     echo "Deleting /data/$1/dalvik-cache/"
     rm -rf /data/$1/dalvik-cache
+    echo "Deleting /system/$1/cache/dalvik-cache/"
+    rm -rf /system/$1/cache/dalvik-cache
     ;;
   esac
 
