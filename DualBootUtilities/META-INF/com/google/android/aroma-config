@@ -167,12 +167,13 @@ if prop("operations.prop","selected") == "3" ||
       "@personalize",
       "romoperations.prop",
 
-      "Switch to",         "", "@default",
-      "Wipe /system",      "", "@default",
-      "Wipe /cache",       "", "@default",
-      "Wipe /data",        "", "@default",
-      "Wipe dalvik-cache", "", "@default",
-      "Wipe all",          "", "@default"
+      "Switch to",                    "", "@default",
+      "Wipe /system",                 "", "@default",
+      "Wipe /cache",                  "", "@default",
+      "Wipe /data",                   "", "@default",
+      "Wipe dalvik-cache",            "", "@default",
+      "Wipe /cache and dalvik-cache", "", "@default",
+      "Wipe all",                     "", "@default"
   );
 
   if prop("romoperations.prop","selected") == "1" then
@@ -211,6 +212,13 @@ if prop("operations.prop","selected") == "3" ||
   endif;
 
   if prop("romoperations.prop","selected") == "6" then
+    setvar("operation_argument", "wipe-caches-" + getvar("partconfigid"));
+    setvar("operation_title", "Wipe /cache and dalvik-cache for " + getvar("partconfig"));
+    setvar("operation_futuretense", "wipe /cache and dalvik-cache for " + getvar("partconfig"));
+    setvar("operation_pasttense", "wiped /cache and dalvik-cache for " + getvar("partconfig"));
+  endif;
+
+  if prop("romoperations.prop","selected") == "7" then
     setvar("operation_argument", "wipe-all-" + getvar("partconfigid"));
     setvar("operation_title", "Wipe everything for " + getvar("partconfig"));
     setvar("operation_futuretense", "wipe everything for " + getvar("partconfig"));

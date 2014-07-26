@@ -255,6 +255,10 @@ wipe-data-*)
 wipe-dalvik-cache-*)
   wipe_dalvik_cache ${1#wipe-dalvik-cache-}
   ;;
+wipe-caches-*)
+  wipe_cache ${1#wipe-caches-}
+  wipe_dalvik_cache ${1#wipe-caches-}
+  ;;
 wipe-all-*)
   wipe_system ${1#wipe-all-}
   wipe_cache ${1#wipe-all-}
