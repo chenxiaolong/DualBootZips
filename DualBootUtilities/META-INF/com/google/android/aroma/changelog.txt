@@ -1,3 +1,7 @@
+<b><#selectbg_g>Version 3.2</#></b>
+<*><b>New darker theme</b></*>
+<*><b>Add option to wipe everything</b></*>
+
 <b><#selectbg_g>Version 3.1</#></b>
 <*><b>Remove kernel in /data/media/0/MultiKernels/ when wiping system</b></*>
 

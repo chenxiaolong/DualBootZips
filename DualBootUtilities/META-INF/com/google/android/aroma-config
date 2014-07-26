@@ -17,13 +17,15 @@
 #
 
 ini_set("rom_name",    "Multi-Boot Utilities");
-ini_set("rom_version", "3.1");
+ini_set("rom_version", "3.2");
 ini_set("rom_author",  "Xiao-Long Chen");
 ini_set("rom_device",  "Samsung Galaxy S4 / LG Nexus 5");
-ini_set("rom_date",    "2014-01-05");
+ini_set("rom_date",    "2014-07-25");
 
 # English only for right now
 loadlang("langs/en.lang");
+
+theme("chenxiaolong");
 
 #fontresload( "0", "ttf/Roboto-Regular.ttf;ttf/DroidSansFallback.ttf;", "12" );
 #fontresload( "1", "ttf/Roboto-Regular.ttf;ttf/DroidSansFallback.ttf;", "14" );
