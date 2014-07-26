@@ -255,6 +255,12 @@ wipe-data-*)
 wipe-dalvik-cache-*)
   wipe_dalvik_cache ${1#wipe-dalvik-cache-}
   ;;
+wipe-all-*)
+  wipe_system ${1#wipe-all-}
+  wipe_cache ${1#wipe-all-}
+  wipe_data ${1#wipe-all-}
+  wipe_dalvik_cache ${1#wipe-all-}
+  ;;
 save-last-kmsg)
   save_last_kmsg
   ;;
