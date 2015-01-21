@@ -1,7 +1,7 @@
 ﻿### LICENSE:
 #
 # Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
-# Copyright (C) 2013 Xiao-Long Chen <chenxiaolong@cxl.epac.to>
+# Copyright (C) 2013-2015 Xiao-Long Chen <chenxiaolong@cxl.epac.to>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 #
 
 ini_set("rom_name",    "Multi-Boot Utilities");
-ini_set("rom_version", "3.3");
+ini_set("rom_version", "4.0-snapshot1");
 ini_set("rom_author",  "Xiao-Long Chen");
-ini_set("rom_device",  "Samsung Galaxy S4 / LG Nexus 5");
-ini_set("rom_date",    "2014-07-26");
+ini_set("rom_device",  "");
+ini_set("rom_date",    "2015-01-21");
 
 # English only for right now
 loadlang("langs/en.lang");
@@ -31,8 +31,6 @@ theme("chenxiaolong");
 #fontresload( "1", "ttf/Roboto-Regular.ttf;ttf/DroidSansFallback.ttf;", "14" );
 fontresload( "0", "ttf/Roboto-Regular.ttf", "12" );
 fontresload( "1", "ttf/Roboto-Regular.ttf", "14" );
-
-#pleasewait("Getting device information ...");
 
 setvar(
   "sysinfo",
@@ -75,13 +73,6 @@ viewbox(
     "@welcome"
 );
 
-textbox(
-    "<~changelog.title>",
-    "<~changelog.desc>",
-    "@update",
-    resread("changelog.txt")
-);
-
 gotolabel("main_menu");
 
 menubox(
@@ -97,6 +88,7 @@ menubox(
     "Multi slot 1",            "",                                        "@default",
     "Multi slot 2",            "",                                        "@default",
     "Multi slot 3",            "",                                        "@default",
+    "Migrate ROMs",            "Needed for patcher >= 8.0.0.r436",        "@default",
     "Save last_kmsg log",      "Copies /proc/last_kmsg to internal SD",   "@default",
     "Save recovery log",       "Copies /tmp/recovery.log to internal SD", "@default"
 );
@@ -226,8 +218,16 @@ if prop("operations.prop","selected") == "3" ||
   endif;
 endif;
 
-# Save last_kmsg log
+# Migrate ROMs
 if prop("operations.prop","selected") == "8" then
+  setvar("operation_argument", "migrate-roms");
+  setvar("operation_title", "Migrate ROMs");
+  setvar("operation_futuretense", "migrate multiboot ROMs' /data");
+  setvar("operation_pasttense", "migrated multiboot ROMs' /data");
+endif;
+
+# Save last_kmsg log
+if prop("operations.prop","selected") == "9" then
   setvar("operation_argument", "save-last-kmsg");
   setvar("operation_title", "Save last_kmsg");
   setvar("operation_futuretense", "save the last_kmsg kernel log");
@@ -235,7 +235,7 @@ if prop("operations.prop","selected") == "8" then
 endif;
 
 # Save recovery log
-if prop("operations.prop","selected") == "9" then
+if prop("operations.prop","selected") == "10" then
   setvar("operation_argument", "save-recovery-log");
   setvar("operation_title", "Save recovery log");
   setvar("operation_futuretense", "save the recovery log");
