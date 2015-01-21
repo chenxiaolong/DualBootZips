@@ -41,8 +41,7 @@ rm -rf META-INF/
 unzip "${ROM_ZIP}" META-INF/com/google/android/update-binary
 
 #for i in $(find . -maxdepth 1 -type d ! -name .git ! -name . ! -name META-INF); do
-for i in DualBootEnable DualBootDisable \
-         SecondaryPermissionsRestore; do
+for i in DualBootEnable DualBootDisable; do
   i=$(basename ${i})
   cd ${i}
   rm -f ../${i}.zip
