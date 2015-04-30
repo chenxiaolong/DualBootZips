@@ -282,8 +282,8 @@ wipe_dalvik_cache() {
         ;;
 
     multi-slot-*)
-        echo "Deleting /data/multiboot/${rom}/dalvik-cache"
-        rm -rf "/data/multiboot/${rom}/dalvik-cache"
+        echo "Deleting /data/multiboot/${rom}/data/dalvik-cache"
+        rm -rf "/data/multiboot/${rom}/data/dalvik-cache"
         echo "Deleting /system/multiboot/${rom}/cache/dalvik-cache"
         rm -rf "/system/multiboot/${rom}/cache/dalvik-cache"
         ;;
