@@ -17,10 +17,10 @@
 #
 
 ini_set("rom_name",    "Multi-Boot Utilities");
-ini_set("rom_version", "4.0-snapshot1");
+ini_set("rom_version", "4.0-snapshot2");
 ini_set("rom_author",  "Xiao-Long Chen");
 ini_set("rom_device",  "");
-ini_set("rom_date",    "2015-01-21");
+ini_set("rom_date",    "2015-04-30");
 
 # English only for right now
 loadlang("langs/en.lang");
