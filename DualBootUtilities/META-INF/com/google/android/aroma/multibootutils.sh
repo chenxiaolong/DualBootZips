@@ -275,10 +275,10 @@ wipe_dalvik_cache() {
         ;;
 
     secondary)
-        echo "Deleting /data/multiboot/dual/dalvik-cache"
-        rm -rf /data/multiboot/dual/dalvik-cache
-        echo "Deleting /cache/multiboot/dual/dalvik-cache"
-        rm -rf /cache/multiboot/dual/dalvik-cache
+        echo "Deleting /data/multiboot/dual/data/dalvik-cache"
+        rm -rf /data/multiboot/dual/data/dalvik-cache
+        echo "Deleting /cache/multiboot/dual/cache/dalvik-cache"
+        rm -rf /cache/multiboot/dual/cache/dalvik-cache
         ;;
 
     multi-slot-*)
