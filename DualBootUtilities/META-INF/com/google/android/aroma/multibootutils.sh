@@ -118,6 +118,9 @@ wipe_system() {
         rm -f "/data/media/0/MultiBoot/${rom}/boot.img"
     esac
 
+    echo "Deleting /sdcard/MultiBoot/${rom}/"
+    rm -rf "/sdcard/MultiBoot/${rom}"
+
     unmount_system
     unmount_cache
     unmount_data
