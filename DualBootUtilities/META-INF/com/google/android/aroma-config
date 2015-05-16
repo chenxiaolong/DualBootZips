@@ -88,7 +88,6 @@ menubox(
     "Multi slot 1",            "",                                        "@default",
     "Multi slot 2",            "",                                        "@default",
     "Multi slot 3",            "",                                        "@default",
-    "Migrate ROMs",            "Needed for patcher >= 8.0.0.r436",        "@default",
     "Save last_kmsg log",      "Copies /proc/last_kmsg to internal SD",   "@default",
     "Save recovery log",       "Copies /tmp/recovery.log to internal SD", "@default"
 );
@@ -218,16 +217,8 @@ if prop("operations.prop","selected") == "3" ||
   endif;
 endif;
 
-# Migrate ROMs
-if prop("operations.prop","selected") == "8" then
-  setvar("operation_argument", "migrate-roms");
-  setvar("operation_title", "Migrate ROMs");
-  setvar("operation_futuretense", "migrate multiboot ROMs' /data");
-  setvar("operation_pasttense", "migrated multiboot ROMs' /data");
-endif;
-
 # Save last_kmsg log
-if prop("operations.prop","selected") == "9" then
+if prop("operations.prop","selected") == "8" then
   setvar("operation_argument", "save-last-kmsg");
   setvar("operation_title", "Save last_kmsg");
   setvar("operation_futuretense", "save the last_kmsg kernel log");
@@ -235,7 +226,7 @@ if prop("operations.prop","selected") == "9" then
 endif;
 
 # Save recovery log
-if prop("operations.prop","selected") == "10" then
+if prop("operations.prop","selected") == "9" then
   setvar("operation_argument", "save-recovery-log");
   setvar("operation_title", "Save recovery log");
   setvar("operation_futuretense", "save the recovery log");

@@ -47,55 +47,6 @@ read_kernel() {
     }
 }
 
-migrate_roms() {
-    mount_data
-    mount_cache
-    mount_system
-
-    local reinstall
-
-    echo "Migrating ROMs data ..."
-
-    mkdir -p /data/multiboot
-
-    if [ -d /system/dual ]; then
-        if [ -d /data/multiboot/dual ]; then
-            echo "Skipping dual: /data/multiboot/dual already exists"
-        else
-            mv /data/dual /data/multiboot/dual
-            rm -rf /system/dual
-            rm -rf /cache/dual
-            reinstall="${reinstall} dual"
-        fi
-    fi
-
-    for i in multi-slot-1 multi-slot-2 multi-slot-3; do
-        if [ -d "/cache/${i}" ]; then
-            if [ -d "/data/multiboot/${i}" ]; then
-                echo "Skipping multi-slot-1: /data/multiboot/${i} already exists"
-            else
-                mv "/data/${i}" "/data/multiboot/${i}"
-                rm -rf "/system/${i}"
-                rm -rf "/cache/${i}"
-                reinstall="${reinstall} ${i}"
-            fi
-        fi
-    done
-
-    unmount_data
-    unmount_cache
-    unmount_system
-
-    echo
-
-    if [ -z "${reinstall}" ]; then
-        echo "Nothing to migrate"
-    else
-        echo "Finished migration"
-        echo "NOTE: Multibooted ROMs must be reinstalled now."
-    fi
-}
-
 switch_to() {
     mount_data
     mount_system
@@ -327,9 +278,6 @@ wipe-all-*)
     wipe_cache "${1#wipe-all-}"
     wipe_data "${1#wipe-all-}"
     wipe_dalvik_cache "${1#wipe-all-}"
-    ;;
-migrate-roms)
-    migrate_roms
     ;;
 save-last-kmsg)
     save_last_kmsg
