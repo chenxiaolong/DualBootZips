@@ -45,6 +45,7 @@ welcome.title=Welcome
 welcome.text1=Welcome to the
 welcome.text2=This tool will allow you to perform certain operations, such as wiping a partition, in a multiboot setup.
 welcome.version=Version
+welcome.mbtool_version=mbtool version
 welcome.updated=Updated
 
 changelog.title=Changelog
