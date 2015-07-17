@@ -17,10 +17,10 @@
 #
 
 ini_set("rom_name",    "Multi-Boot Utilities");
-ini_set("rom_version", "4.0-snapshot6");
+ini_set("rom_version", "4.0-snapshot7");
 ini_set("rom_author",  "Xiao-Long Chen");
 ini_set("rom_device",  "");
-ini_set("rom_date",    "2015-06-12");
+ini_set("rom_date",    "2015-07-16");
 
 # English only for right now
 loadlang("langs/en.lang");
@@ -132,9 +132,6 @@ then
         write("/tmp/dbu/cmd.sh",
               "#!/sbin/sh\n" +
               "/tmp/dbu/mbtool utilities switch " + getvar("romid") + "\n");
-        setvar("operation_title",       "Switch to "   + getvar("romname"));
-        setvar("operation_futuretense", "switch to "   + getvar("romname"));
-        setvar("operation_pasttense",   "switched to " + getvar("romname"));
     else
         checkbox(
             "<~operations.title> (" + getvar("romname") + ")",
@@ -155,41 +152,26 @@ then
             write("/tmp/dbu/cmd.sh",
                   read("/tmp/dbu/cmd.sh") +
                   "/tmp/dbu/mbtool utilities wipe-system " + getvar("romid") + "\n");
-            setvar("operation_title",       "Wipe /system for "  + getvar("romname"));
-            setvar("operation_futuretense", "wipe /system for "  + getvar("romname"));
-            setvar("operation_pasttense",   "wiped /system for " + getvar("romname"));
         endif;
         if prop("romoperations.prop", "item.0.2") == "1" then
             write("/tmp/dbu/cmd.sh",
                   read("/tmp/dbu/cmd.sh") +
                   "/tmp/dbu/mbtool utilities wipe-cache " + getvar("romid") + "\n");
-            setvar("operation_title",       "Wipe /cache for "  + getvar("romname"));
-            setvar("operation_futuretense", "wipe /cache for "  + getvar("romname"));
-            setvar("operation_pasttense",   "wiped /cache for " + getvar("romname"));
         endif;
         if prop("romoperations.prop", "item.0.3") == "1" then
             write("/tmp/dbu/cmd.sh",
                   read("/tmp/dbu/cmd.sh") +
                   "/tmp/dbu/mbtool utilities wipe-data " + getvar("romid") + "\n");
-            setvar("operation_title",       "Wipe /data for "  + getvar("romname"));
-            setvar("operation_futuretense", "wipe /data for "  + getvar("romname"));
-            setvar("operation_pasttense",   "wiped /data for " + getvar("romname"));
         endif;
         if prop("romoperations.prop", "item.0.4") == "1" then
             write("/tmp/dbu/cmd.sh",
                   read("/tmp/dbu/cmd.sh") +
                   "/tmp/dbu/mbtool utilities wipe-dalvik-cache " + getvar("romid") + "\n");
-            setvar("operation_title",       "Wipe dalvik-cache for "  + getvar("romname"));
-            setvar("operation_futuretense", "wipe dalvik-cache for "  + getvar("romname"));
-            setvar("operation_pasttense",   "wiped dalvik-cache for " + getvar("romname"));
         endif;
         if prop("romoperations.prop", "item.0.5") == "1" then
             write("/tmp/dbu/cmd.sh",
                   read("/tmp/dbu/cmd.sh") +
                   "/tmp/dbu/mbtool utilities wipe-multiboot " + getvar("romid") + "\n");
-            setvar("operation_title",       "Wipe multiboot files for "  + getvar("romname"));
-            setvar("operation_futuretense", "wipe multiboot files for "  + getvar("romname"));
-            setvar("operation_pasttense",   "wiped multiboot files for " + getvar("romname"));
         endif;
     endif;
 else
@@ -202,9 +184,6 @@ else
               "#!/sbin/sh\n" +
               "echo \"Copying /proc/last_kmsg to internal SD\"\n" +
               "cp /proc/last_kmsg /sdcard/\n");
-        setvar("operation_title",       "Save last_kmsg");
-        setvar("operation_futuretense", "save the last_kmsg kernel log");
-        setvar("operation_pasttense",   "saved the last_kmsg kernel log");
     endif;
 
     # Save recovery log
@@ -213,22 +192,8 @@ else
               "#!/sbin/sh\n" +
               "echo \"Copying /tmp/recovery.log to internal SD\"\n" +
               "cp /tmp/recovery.log /sdcard/\n");
-        setvar("operation_title",       "Save recovery log");
-        setvar("operation_futuretense", "save the recovery log");
-        setvar("operation_pasttense",   "saved the recovery log");
     endif;
 endif;
-
-ini_set("text_next", "Continue");
-ini_set("icon_next", "@installbutton");
-
-viewbox(
-    getvar("operation_title"),
-    "The wizard will now " + getvar("operation_futuretense") + ".\n\n" +
-    "Press <b>Continue</b> to begin.\n\n" +
-    "If you want to choose another operation, press <b>Back</b>. To exit, press the menu button and choose Quit Installation.",
-    "@install"
-);
 
 ini_set("text_next", "Next");
 ini_set("icon_next", "@next");
@@ -238,31 +203,20 @@ pleasewait("Executing Shell...");
 setvar("exitcode", exec("/sbin/sh", "-ex", "/tmp/dbu/cmd.sh"));
 
 textbox(
-    getvar("operation_title"),
+    "",
     "Operation complete",
     "@default",
     getvar("exec_buffer") + "\n\n" +
         "<b>EXIT CODE: " + getvar("exitcode") + "</b>"
 );
 
-if getvar("exitcode") == 0 then
-    setvar("completion_message", "Successfully " + getvar("operation_pasttense"));
-    setvar("completion_icon", "@finish");
-else
-    setvar("completion_message",
-           "Failed to " + getvar("operation_futuretense") + "\n\n" +
-           "Please save the recovery log from the main menu and report the issue.");
-    setvar("completion_icon", "@alert");
-endif;
-
 ini_set("text_next", "Finish");
 ini_set("icon_next", "@finish");
 
 viewbox(
     "Operation Completed",
-    getvar("completion_message") + "\n\n" +
     "Press Finish to go back to the main menu.",
-    getvar("completion_icon")
+    "@finish"
 );
 
 goto("main_menu");
