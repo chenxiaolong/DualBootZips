@@ -1,0 +1,115 @@
+#!/sbin/sh
+
+VERSION=20161128-1
+
+fd="${2}"
+
+ui_print() {
+    echo -n -e "ui_print ${*}\n" > /proc/self/fd/"${fd}"
+    echo -n -e "ui_print\n" > /proc/self/fd/"${fd}"
+}
+
+timestamp=$(date +%Y%m%d.%H%M%S)
+
+mount /data || true
+mount /cache || true
+mount /sdcard || true
+mount /system || true
+
+rm -rf "/tmp/${timestamp}"
+mkdir -p "/tmp/${timestamp}"
+cd "/tmp/${timestamp}" || exit 1
+
+echo "${VERSION}" > getlogs_version
+
+copy() {
+    if [ -f "${1}" ]; then
+        mkdir -p "$(dirname "${2}")"
+        cp -f "${1}" "${2}"
+    fi
+}
+
+copy /proc/cmdline                        proc/cmdline
+copy /proc/cpuinfo                        proc/cpuinfo
+copy /proc/devices                        proc/devices
+copy /proc/filesystems                    proc/filesystems
+copy /proc/last_kmsg                      proc/last_kmsg
+copy /proc/mounts                         proc/mounts
+copy /proc/partitions                     proc/partitions
+copy /proc/version                        proc/version
+copy /sys/fs/pstore/console-ramoops       sys/fs/pstore/console-ramoops
+copy /system/build.prop                   system/build.prop
+copy /cache/multiboot/bootui/exec.log     multiboot/cache/bootui/exec.log
+copy /cache/multiboot/bootui/settings.bin multiboot/cache/bootui/settings.bin
+copy /sdcard/MultiBoot.log                multiboot/MultiBoot.log
+copy /default.prop                        recovery/default.prop
+copy /etc/mke2fs.conf                     recovery/mke2fs.conf
+copy /etc/recovery.fstab                  recovery/recovery.fstab
+copy /tmp/recovery.log                    recovery/recovery.log
+
+for i in /sdcard/MultiBoot/*.log; do
+    copy "${i}" multiboot/sdcard/"$(basename "${i}")"
+done
+for i in /sdcard/MultiBoot/logs/*; do
+    copy "${i}" multiboot/sdcard/logs/"$(basename "${i}")"
+done
+for i in /cache/multiboot/logs/*; do
+    copy "${i}" multiboot/cache/"$(basename "${i}")"
+done
+
+dmesg > recovery/dmesg.log
+getprop > recovery/properties.log
+
+mkdir listings
+ls -lR /dev    > listings/dev_full
+ls -ZR /dev    > listings/dev_contexts
+ls -l  /proc   > listings/proc_full
+ls -Z  /proc   > listings/proc_contexts
+ls -lR /sys    > listings/sys_full
+ls -ZR /sys    > listings/sys_contexts
+ls -lR /system > listings/system_full
+ls -ZR /system > listings/system_contexts
+
+find /sys -name uevent > listings/uevents
+
+pstore_supported=0
+pstore_mounted=0
+pstore_can_write=0
+pstore_can_read=0
+pstore_contents_correct=0
+
+if grep pstore /proc/filesystems; then
+    pstore_supported=1
+    if grep pstore /proc/mounts; then
+        pstore_mounted=1
+        pstore_dir=$(grep pstore /proc/mounts | cut -d' ' -f2)
+        if echo 'TESTING' > "${pstore_dir}"/testing; then
+            pstore_can_write=1
+        fi
+        if contents=$(cat "${pstore_dir}"/testing); then
+            pstore_can_read=1
+        fi
+        if [ "c${contents}" = 'xTESTING' ]; then
+            pstore_contents_correct=1
+        fi
+    fi
+fi
+
+echo "pstore_supported=${pstore_supported}" >> recovery/pstore.log
+echo "pstore_mounted=${pstore_mounted}" >> recovery/pstore.log
+echo "pstore_can_write=${pstore_can_write}" >> recovery/pstore.log
+echo "pstore_can_read=${pstore_can_read}" >> recovery/pstore.log
+echo "pstore_contents_correct=${pstore_contents_correct}" >> recovery/pstore.log
+
+cd /tmp
+tar -zcvf "${timestamp}.tar.gz" "${timestamp}"
+
+mkdir -p /sdcard/logs/
+cp "${timestamp}.tar.gz" "/sdcard/logs/${timestamp}.tar.gz"
+rm -r "/tmp/${timestamp}"
+rm "/tmp/${timestamp}.tar.gz"
+
+chmod -R 775 /sdcard/logs/
+chown -R media_rw:media_rw /sdcard/logs/
+
+ui_print "Copied logs to internal storage in logs/ folder"
