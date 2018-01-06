@@ -1,0 +1,9 @@
+#!/sbin/sh
+
+fd="${2}"
+
+ui_print() {
+    echo -n -e "ui_print ${*}\n" > /proc/self/fd/"${fd}"
+    echo -n -e "ui_print\n" > /proc/self/fd/"${fd}"
+}
+ui_print "This zip does nothing"
